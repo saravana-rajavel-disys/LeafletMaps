@@ -7,8 +7,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico">
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="">
@@ -25,7 +23,7 @@
     </style>
 
     <style>
-        #map {
+        #DistrictMap {
             width: 800px;
             height: 600px;
         }
@@ -48,7 +46,7 @@
 
 <body>
 
-    <div id="map"
+    <div id="DistrictMap"
         class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
         tabindex="0" data-ol-has-click-handler="" style="position: relative;">
         <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);">
@@ -82,12 +80,12 @@
     <script type="text/javascript" src="GangesDistricts.js"></script>
 
     <script type="text/javascript">
-        var southWest = L.latLng(5, 75),
-            northEast = L.latLng(38, 90),
-            bounds = L.latLngBounds(southWest, northEast);
+        var southWestDistrict = L.latLng(5, 75),
+            northEastDistrict = L.latLng(38, 90),
+            boundsDistrict = L.latLngBounds(southWestDistrict, northEastDistrict);
 
-        var map = L.map('map', {
-            maxBounds: bounds,
+        var districtMap = L.map('DistrictMap', {
+            maxBounds: boundsDistrict,
             maxZoom: 10,
             minZoom: 5
         }).setView([27, 83], 6.5);
@@ -99,46 +97,46 @@
             id: 'mapbox/light-v9',
             tileSize: 512,
             zoomOffset: -1
-        }).addTo(map);
+        }).addTo(districtMap);
 
 
         // control that shows state info on hover
-        var info = L.control();
+        var districtInfo = L.control();
 
-        info.onAdd = function (map) {
+        districtInfo.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info');
             this.update();
             return this._div;
         };
 
-        info.update = function (props) {
+        districtInfo.update = function (props) {
             this._div.innerHTML = '<h4>Ganges - Grant</h4>' + (props ?
                 '<b>State: ' + props.NAME_1 + '</b><br />District: ' + props.NAME_2
                 : 'Hover over a Distrcit');
         };
 
-        info.addTo(map);
+        districtInfo.addTo(districtMap);
 
 
         // get color depending on grant status
-        function getColor(d) {
+        function getDistrictColor(d) {
             return d = 1 ? '#FFFF99' :
                 d = 0 ? '#BD0026' :
                     '#FFEDA0';
         }
 
-        function style(feature) {
+        function districtStyle(feature) {
             return {
                 weight: 2,
                 opacity: 1,
                 color: 'white',
                 dashArray: '3',
                 fillOpacity: 0.7,
-                fillColor: getColor(feature.properties.status)
+                fillColor: getDistrictColor(feature.properties.status)
             };
         }
 
-        function highlightFeature(e) {
+        function highlightDistrictFeature(e) {
             var layer = e.target;
 
             layer.setStyle({
@@ -152,34 +150,34 @@
                 layer.bringToFront();
             }
 
-            info.update(layer.feature.properties);
+            districtInfo.update(layer.feature.properties);
         }
 
-        var geojson;
+        var districtGeojson;
 
-        function resetHighlight(e) {
-            geojson.resetStyle(e.target);
-            info.update();
+        function resetDistrictHighlight(e) {
+            districtGeojson.resetStyle(e.target);
+            districtInfo.update();
         }
 
-        function zoomToFeature(e) {
-            map.fitBounds(e.target.getBounds());
+        function zoomToFeatureDistrict(e) {
+            districtMap.fitBounds(e.target.getBounds());
         }
 
-        function onEachFeature(feature, layer) {
+        function onEachDistrictFeature(feature, layer) {
             layer.on({
-                mouseover: highlightFeature,
-                mouseout: resetHighlight,
-                click: zoomToFeature
+                mouseover: highlightDistrictFeature,
+                mouseout: resetDistrictHighlight,
+                click: zoomToFeatureDistrict
             });
         }
 
-        geojson = L.geoJson(districts, {
-            style: style,
-            onEachFeature: onEachFeature
-        }).addTo(map);
+        districtGeojson = L.geoJson(districts, {
+            style: districtStyle,
+            onEachFeature: onEachDistrictFeature
+        }).addTo(districtMap);
 
-        map.attributionControl.addAttribution('BMGF data &copy; <a href="https://www.gatesfoundation.org/">Gates Foundation</a>');
+        districtMap.attributionControl.addAttribution('BMGF data &copy; <a href="https://www.gatesfoundation.org/">Gates Foundation</a>');
 
     </script>
 
