@@ -127,7 +127,15 @@
 
         info.update = function (props) {
             this._div.innerHTML = '<h4>India - Grant Status</h4>' + (props ?
-                '<b>State: ' + props.NAME_1 + '</b><br />Status of Grant: ' + props.STATUS
+                '<b>State: ' + props.NAME_1 + '</b><br />Status of Grant: <b>' + props.STATUS + '</b>' +
+                '<br />Wheat Production: <b>' + props.data_1 + ' LMT</b>' +
+                '<br />Rice Production: <b>' + props.data_2 + ' LMT</b>' +
+                '<br />Crop Target: <b>' + props.data_3 + ' Hectares</b>' +
+                '<br />Crop Damage: <b>' + props.data_4 + ' Hectares</b>' +
+                '<br />Registered Farmers: <b>' + props.data_5 + ' lakhs</b>' +
+                '<br />Farmers applied for subsidy: <b>' + props.data_6 + ' lakhs</b>' +
+                '<br />Rainfall: <b>' + props.data_7 + ' cm</b>' +
+                '<br />Crop Coverage: <b>' + props.data_8 + ' %</b>'
                 : 'Hover over a state');
         };
 
