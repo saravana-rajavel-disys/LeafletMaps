@@ -7,8 +7,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico">
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="">
@@ -25,7 +23,8 @@
     </style>
 
     <style>
-        #map {
+        #StateMap,
+        #DistrictMap {
             width: 800px;
             height: 800px;
         }
@@ -57,41 +56,141 @@
             margin-right: 8px;
             opacity: 0.7;
         }
+
+        /* Style the tab buttons */
+        .tablink {
+            background-color: #555;
+            color: white;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 12px 12px;
+            font-size: 15px;
+            width: 403px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tablink:hover {
+            background-color: #777;
+        }
+
+        /* Set default styles for tab content */
+        .tabcontent {
+            display: none;
+            padding: 5px;
+            text-align: left;
+            width: 800px
+        }
+
+        /* Style each tab content individually */
+        #StateMap {
+            background-color: lightgray;
+        }
+
+        #DistrictMap {
+            background-color: lightslategray;
+        }
     </style>
 </head>
 
 <body>
+    <button id="tabs1" class="tablink" onclick="openTab('State', this, 'lightgray')">State</button>
+    <button id="tabs2" class="tablink" onclick="openTab('District', this, 'lightslategray')">District</button>
 
-    <div id="map"
-        class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
-        tabindex="0" data-ol-has-click-handler="" style="position: relative;">
-        <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);">
-            <div class="leaflet-pane leaflet-tile-pane">
-                <div class="leaflet-layer " style="z-index: 1; opacity: 1;">
+    <div id="State" class="tabContent">
+        <div id="StateMap"
+            class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+            tabindex="0" data-ol-has-click-handler="" style="position: relative;">
+            <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);">
+                <div class="leaflet-pane leaflet-tile-pane">
+                    <div class="leaflet-layer " style="z-index: 1; opacity: 1;">
+                    </div>
                 </div>
+                <div class="leaflet-pane leaflet-shadow-pane"></div>
+                <div class="leaflet-pane leaflet-marker-pane"></div>
+                <div class="leaflet-pane leaflet-tooltip-pane"></div>
+                <div class="leaflet-pane leaflet-popup-pane"></div>
+                <div class="leaflet-proxy leaflet-zoom-animated"
+                    style="transform: translate3d(955.733px, 1582.83px, 0px) scale(8);"></div>
             </div>
-            <div class="leaflet-pane leaflet-shadow-pane"></div>
-            <div class="leaflet-pane leaflet-marker-pane"></div>
-            <div class="leaflet-pane leaflet-tooltip-pane"></div>
-            <div class="leaflet-pane leaflet-popup-pane"></div>
-            <div class="leaflet-proxy leaflet-zoom-animated"
-                style="transform: translate3d(955.733px, 1582.83px, 0px) scale(8);"></div>
-        </div>
-        <div class="leaflet-control-container">
-            <div class="leaflet-top leaflet-left">
-                <div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in"
-                        href="#" title="Zoom in" role="button" aria-label="Zoom in" data-ol-has-click-handler="">+</a><a
-                        class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out"
-                        data-ol-has-click-handler="">−</a></div>
-            </div>
-            <div class="leaflet-top leaflet-right">
-                <div class="info leaflet-control">
+            <div class="leaflet-control-container">
+                <div class="leaflet-top leaflet-left">
+                    <div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in"
+                            href="#" title="Zoom in" role="button" aria-label="Zoom in"
+                            data-ol-has-click-handler="">+</a><a class="leaflet-control-zoom-out" href="#"
+                            title="Zoom out" role="button" aria-label="Zoom out" data-ol-has-click-handler="">−</a>
+                    </div>
                 </div>
+                <div class="leaflet-top leaflet-right">
+                    <div class="info leaflet-control">
+                    </div>
+                </div>
+                <div class="leaflet-bottom leaflet-left"></div>
+                <div class="leaflet-bottom leaflet-right"></div>
             </div>
-            <div class="leaflet-bottom leaflet-left"></div>
-            <div class="leaflet-bottom leaflet-right"></div>
         </div>
     </div>
+    <div id="District" class="tabContent">
+        <div id="DistrictMap"
+            class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+            tabindex="0" data-ol-has-click-handler="" style="position: relative;">
+            <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);">
+                <div class="leaflet-pane leaflet-tile-pane">
+                    <div class="leaflet-layer " style="z-index: 1; opacity: 1;">
+                    </div>
+                </div>
+                <div class="leaflet-pane leaflet-shadow-pane"></div>
+                <div class="leaflet-pane leaflet-marker-pane"></div>
+                <div class="leaflet-pane leaflet-tooltip-pane"></div>
+                <div class="leaflet-pane leaflet-popup-pane"></div>
+                <div class="leaflet-proxy leaflet-zoom-animated"
+                    style="transform: translate3d(955.733px, 1582.83px, 0px) scale(8);"></div>
+            </div>
+            <div class="leaflet-control-container">
+                <div class="leaflet-top leaflet-left">
+                    <div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in"
+                            href="#" title="Zoom in" role="button" aria-label="Zoom in"
+                            data-ol-has-click-handler="">+</a><a class="leaflet-control-zoom-out" href="#"
+                            title="Zoom out" role="button" aria-label="Zoom out" data-ol-has-click-handler="">−</a>
+                    </div>
+                </div>
+                <div class="leaflet-top leaflet-right">
+                    <div class="info leaflet-control">
+                    </div>
+                </div>
+                <div class="leaflet-bottom leaflet-left"></div>
+                <div class="leaflet-bottom leaflet-right"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function openTab(tabName, element, color) {
+            // Hide all elements with class="tabcontent" by default */
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Remove the background color of all tablinks/buttons
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].style.backgroundColor = "";
+            }
+
+            // Show the specific tab content
+            document.getElementById(tabName).style.display = "block";
+
+            // Add the specific color to the button used to open the tab content
+            element.style.backgroundColor = color;
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("tabs1").click();
+
+    </script>
 
     <script type="text/javascript" src="India-2019.js"></script>
 
@@ -100,7 +199,7 @@
             northEast = L.latLng(38, 90),
             bounds = L.latLngBounds(southWest, northEast);
 
-        var map = L.map('map', {
+        var map = L.map('StateMap', {
             maxBounds: bounds,
             maxZoom: 5,
             minZoom: 4
@@ -115,6 +214,13 @@
             zoomOffset: -1
         }).addTo(map);
 
+        var stateTab = document.getElementById('tabs1');
+        var stateObserver = new MutationObserver(function () {
+            if (stateTab.style.display != 'none') {
+                map.invalidateSize();
+            }
+        });
+        stateObserver.observe(stateTab, { attributes: true });
 
         // control that shows state info on hover
         var info = L.control();
@@ -140,7 +246,6 @@
         };
 
         info.addTo(map);
-
 
         // get color depending on grant status
         function getColor(d) {
@@ -226,6 +331,118 @@
         };
 
         legend.addTo(map);
+
+    </script>
+
+    <script type="text/javascript" src="GangesDistricts.js"></script>
+
+    <script type="text/javascript">
+        var southWestDistrict = L.latLng(5, 75),
+            northEastDistrict = L.latLng(38, 90),
+            boundsDistrict = L.latLngBounds(southWestDistrict, northEastDistrict);
+
+        var districtMap = L.map('DistrictMap', {
+            maxBounds: boundsDistrict,
+            maxZoom: 10,
+            minZoom: 5
+        }).setView([27, 83], 6.5);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2FyYXZhbmFyYWphdmVsIiwiYSI6ImNrdDFyaGJ6bDBkbHcydW8yZ2trMDdvc2EifQ.8ck16mC3NAitzQkXmuIU7Q', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox/light-v9',
+            tileSize: 512,
+            zoomOffset: -1
+        }).addTo(districtMap);
+
+        var districtTab = document.getElementById('tabs2');
+        var districtObserver = new MutationObserver(function () {
+            if (districtTab.style.display != 'none') {
+                districtMap.invalidateSize();
+            }
+        });
+        districtObserver.observe(districtTab, { attributes: true });
+
+        // control that shows state info on hover
+        var districtInfo = L.control();
+
+        districtInfo.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+
+        districtInfo.update = function (props) {
+            this._div.innerHTML = '<h4>Ganges - Grant</h4>' + (props ?
+                '<b>State: ' + props.NAME_1 + '</b><br />District: ' + props.NAME_2
+                : 'Hover over a Distrcit');
+        };
+
+        districtInfo.addTo(districtMap);
+
+        console.log(districtInfo);
+
+        // get color depending on grant status
+        function getDistrictColor(d) {
+            return d = 1 ? '#FFFF99' :
+                d = 0 ? '#BD0026' :
+                    '#FFEDA0';
+        }
+
+        function districtStyle(feature) {
+            return {
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.7,
+                fillColor: getDistrictColor(feature.properties.status)
+            };
+        }
+
+        function highlightDistrictFeature(e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                layer.bringToFront();
+            }
+
+            districtInfo.update(layer.feature.properties);
+        }
+
+        var districtGeojson;
+
+        function resetDistrictHighlight(e) {
+            districtGeojson.resetStyle(e.target);
+            districtInfo.update();
+        }
+
+        function zoomToFeatureDistrict(e) {
+            districtMap.fitBounds(e.target.getBounds());
+        }
+
+        function onEachDistrictFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightDistrictFeature,
+                mouseout: resetDistrictHighlight,
+                click: zoomToFeatureDistrict
+            });
+        }
+
+        districtGeojson = L.geoJson(districts, {
+            style: districtStyle,
+            onEachFeature: onEachDistrictFeature
+        }).addTo(districtMap);
+
+        districtMap.attributionControl.addAttribution('BMGF data &copy; <a href="https://www.gatesfoundation.org/">Gates Foundation</a>');
 
     </script>
 
